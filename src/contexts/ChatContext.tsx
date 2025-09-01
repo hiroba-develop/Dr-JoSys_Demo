@@ -4,7 +4,6 @@ import {
   type ChatMessage, 
   type ChatThread, 
   type ChatGroup, 
-  type ChatGroupMember, 
   type ChatAttachment,
   type ZoomMeeting,
   type ExternalFolder,
@@ -466,7 +465,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [user]);
 
-  const getFolderItems = useCallback(async (folderId: string, parentFolderId?: string): Promise<FolderItem[]> => {
+  const getFolderItems = useCallback(async (parentFolderId?: string): Promise<FolderItem[]> => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 

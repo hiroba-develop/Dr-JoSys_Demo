@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { MessageCircle } from 'lucide-react';
-import type { ChatMessage } from '../../types';
 import { useChatContext } from '../../contexts/ChatContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { format } from 'date-fns';
@@ -137,7 +136,7 @@ const MessageList: React.FC = () => {
                           >
                             <div className="flex items-center space-x-2">
                               <span className="text-lg">📎</span>
-                              <span className="text-sm">{attachment.name}</span>
+                              <span className="text-sm">{attachment.fileName}</span>
                             </div>
                           </div>
                         ))}

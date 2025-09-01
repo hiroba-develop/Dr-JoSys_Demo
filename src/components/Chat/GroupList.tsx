@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Hash, Lock, MessageCircle } from 'lucide-react';
-import type { ChatGroup } from '../../types';
+import { Plus, Hash, MessageCircle } from 'lucide-react';
 import { useChatContext } from '../../contexts/ChatContext';
 import { formatDistanceToNow } from 'date-fns';
 import { ja } from 'date-fns/locale';

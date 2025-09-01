@@ -1,6 +1,5 @@
 import React from 'react';
-import { MessageSquare, Users, Clock, ChevronRight } from 'lucide-react';
-import type { ChatThread } from '../../types';
+import { MessageSquare, Clock, ChevronRight } from 'lucide-react';
 import { useChatContext } from '../../contexts/ChatContext';
 import { formatDistanceToNow } from 'date-fns';
 import { ja } from 'date-fns/locale';
