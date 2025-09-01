@@ -343,3 +343,98 @@ export interface UserRankingData {
   recentAwards: Award[];
   benchmarkData: BenchmarkData;
 }
+
+// チャット機能関連の型定義
+export interface ChatMessage {
+  id: string;
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorPicture?: string;
+  timestamp: Date;
+  threadId?: string;
+  groupId: string;
+  attachments?: ChatAttachment[];
+  zoomMeetingUrl?: string;
+  edited?: boolean;
+  editedAt?: Date;
+  isOptimistic?: boolean; // 楽観的更新フラグ
+}
+
+export interface ChatThread {
+  id: string;
+  parentMessageId: string;
+  groupId: string;
+  title?: string;
+  createdAt: Date;
+  lastMessageAt: Date;
+  messageCount: number;
+}
+
+export interface ChatGroup {
+  id: string;
+  name: string;
+  description?: string;
+  createdBy: string;
+  createdAt: Date;
+  members: ChatGroupMember[];
+  isPrivate: boolean;
+  lastMessageAt?: Date;
+  unreadCount?: number;
+}
+
+export interface ChatGroupMember {
+  userId: string;
+  userName: string;
+  userPicture?: string;
+  role: 'admin' | 'member';
+  joinedAt: Date;
+  lastReadAt?: Date;
+}
+
+export interface ChatAttachment {
+  id: string;
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+  url: string;
+  thumbnailUrl?: string;
+  uploadedAt: Date;
+}
+
+export interface ZoomMeeting {
+  id: string;
+  meetingId: string;
+  password?: string;
+  joinUrl: string;
+  startUrl: string;
+  createdBy: string;
+  createdAt: Date;
+  topic: string;
+  duration: number;
+  scheduledFor?: Date;
+}
+
+export interface ExternalFolder {
+  id: string;
+  name: string;
+  path: string;
+  type: 'google_drive' | 'dropbox' | 'onedrive' | 'local';
+  accessToken?: string;
+  refreshToken?: string;
+  connectedBy: string;
+  connectedAt: Date;
+  lastSyncAt?: Date;
+}
+
+export interface FolderItem {
+  id: string;
+  name: string;
+  type: 'file' | 'folder';
+  size?: number;
+  mimeType?: string;
+  modifiedAt: Date;
+  downloadUrl?: string;
+  thumbnailUrl?: string;
+  parentFolderId?: string;
+}

@@ -6,9 +6,8 @@ import {
 } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
-import Sample from "./pages/Sample";
-import Settings from "./pages/Settings";
+import Chat from "./pages/Chat";
+import Files from "./pages/Files";
 import Login from "./pages/Login";
 import { useEffect } from "react";
 
@@ -75,7 +74,7 @@ const AppContent: React.FC = () => {
     }
 
     // デモモード用のページタイトル設定
-    document.title = "サンプルアプリ - ログイン認証デモ";
+    document.title = "相談チャット - 簡単相談アプリ";
   }, []);
 
   return (
@@ -83,33 +82,25 @@ const AppContent: React.FC = () => {
       {/* ログイン画面 */}
       <Route path="/login" element={<Login />} />
 
-      {/* 認証が必要なページ */}
+      {/* メインのチャット画面 */}
       <Route
         path="/"
         element={
           <ProtectedRoute>
             <Layout>
-              <Dashboard />
+              <Chat />
             </Layout>
           </ProtectedRoute>
         }
       />
+      
+      {/* ファイル共有画面 */}
       <Route
-        path="/sample"
+        path="/files"
         element={
           <ProtectedRoute>
             <Layout>
-              <Sample />
-            </Layout>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/settings"
-        element={
-          <ProtectedRoute>
-            <Layout>
-              <Settings />
+              <Files />
             </Layout>
           </ProtectedRoute>
         }
