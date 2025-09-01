@@ -111,8 +111,8 @@ const FolderIntegration: React.FC<FolderIntegrationProps> = ({ className = '' })
   }, [selectedFolder]);
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border ${className}`}>
-      <div className="p-4 border-b border-gray-200">
+    <div className={`bg-white rounded-lg shadow-sm border ${className} flex flex-col`}>
+      <div className="p-4 border-b border-gray-200 flex-shrink-0">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900 flex items-center">
             <Folder className="w-5 h-5 mr-2" />
@@ -129,7 +129,7 @@ const FolderIntegration: React.FC<FolderIntegrationProps> = ({ className = '' })
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="flex-1 overflow-y-auto p-4">
         {isConnectingNew && (
           <div className="mb-4 p-4 bg-gray-50 rounded-lg">
             <h3 className="text-sm font-medium text-gray-900 mb-3">フォルダを接続</h3>

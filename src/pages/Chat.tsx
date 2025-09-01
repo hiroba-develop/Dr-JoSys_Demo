@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, UserPlus } from 'lucide-react';
 import { ChatProvider, useChatContext } from '../contexts/ChatContext';
 import GroupList from '../components/Chat/GroupList';
 import MessageList from '../components/Chat/MessageList';
 import MessageInput from '../components/Chat/MessageInput';
+import ZoomModal from '../components/Chat/ZoomModal';
 
 const ChatContent: React.FC = () => {
   const { currentGroup, setCurrentGroup } = useChatContext();
   const [showGroupList, setShowGroupList] = useState(!currentGroup);
+  const [showZoomModal, setShowZoomModal] = useState(false);
 
   // グループが選択されたらチャット画面に移行
   React.useEffect(() => {
@@ -21,6 +23,12 @@ const ChatContent: React.FC = () => {
     setShowGroupList(true);
   };
 
+  const handleInviteMember = () => {
+    // TODO: Implement member invitation logic
+    console.log(`Inviting member to group: ${currentGroup?.name}`);
+    alert(`${currentGroup?.name}にメンバーを招待します。（実装保留）`);
+  };
+
   if (showGroupList) {
     return (
       <div className="h-full flex flex-col" style={{ backgroundColor: '#EEEEEE' }}>
@@ -30,7 +38,7 @@ const ChatContent: React.FC = () => {
   }
 
   return (
-    <div className="h-full flex flex-col" style={{ backgroundColor: '#EEEEEE' }}>
+    <div className="h-full flex flex-col relative" style={{ backgroundColor: '#EEEEEE' }}>
       {/* チャットヘッダー */}
       <div className="flex items-center p-3 border-b" style={{ backgroundColor: 'white', borderColor: '#393E46' }}>
         <button
@@ -48,6 +56,16 @@ const ChatContent: React.FC = () => {
             {currentGroup?.members.length}人
           </p>
         </div>
+        
+        {/* メンバー招待ボタン */}
+        <button
+          onClick={handleInviteMember}
+          className="p-2 rounded-full hover:opacity-80 transition-all"
+          style={{ backgroundColor: '#EEEEEE' }}
+          title="メンバーを招待"
+        >
+          <UserPlus className="w-5 h-5" style={{ color: '#393E46' }} />
+        </button>
       </div>
 
       {/* メッセージエリア */}
@@ -56,7 +74,10 @@ const ChatContent: React.FC = () => {
       </div>
 
       {/* メッセージ入力エリア */}
-      <MessageInput />
+      <MessageInput onZoomButtonClick={() => setShowZoomModal(true)} />
+
+      {/* Zoom Modal */}
+      {showZoomModal && <ZoomModal onClose={() => setShowZoomModal(false)} />}
     </div>
   );
 };

@@ -3,16 +3,16 @@ import { Send, Plus, Camera, Image, Video } from 'lucide-react';
 import { useChatContext } from '../../contexts/ChatContext';
 import { useDropzone } from 'react-dropzone';
 
-const MessageInput: React.FC = () => {
-  const { currentGroup, sendMessage, createZoomMeeting, uploadFile } = useChatContext();
+interface MessageInputProps {
+  onZoomButtonClick: () => void;
+}
+
+const MessageInput: React.FC<MessageInputProps> = ({ onZoomButtonClick }) => {
+  const { currentGroup, sendMessage, uploadFile } = useChatContext();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [showAttachMenu, setShowAttachMenu] = useState(false);
-  const [showZoomModal, setShowZoomModal] = useState(false);
-  const [zoomTitle, setZoomTitle] = useState('');
-  const [zoomDescription, setZoomDescription] = useState('');
-  const [isCreatingZoom, setIsCreatingZoom] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onDrop = async (acceptedFiles: File[]) => {
@@ -87,27 +87,9 @@ const MessageInput: React.FC = () => {
     }
   };
 
-  const handleCreateZoom = async () => {
-    if (!currentGroup || !zoomTitle.trim()) return;
-    
-    setIsCreatingZoom(true);
-    try {
-      await createZoomMeeting(zoomTitle.trim(), 60, currentGroup.id, undefined, zoomDescription.trim());
-      setShowZoomModal(false);
-      setShowAttachMenu(false);
-      setZoomTitle('');
-      setZoomDescription('');
-    } catch (error) {
-      console.error('Failed to create Zoom meeting:', error);
-      alert('Zoomミーティングの作成に失敗しました。もう一度お試しください。');
-    } finally {
-      setIsCreatingZoom(false);
-    }
-  };
-
   const handleZoomMenuClick = () => {
     setShowAttachMenu(false);
-    setShowZoomModal(true);
+    onZoomButtonClick();
   };
 
   const triggerFileUpload = () => {
@@ -170,117 +152,6 @@ const MessageInput: React.FC = () => {
             <Video className="w-5 h-5" style={{ color: '#00ADB5' }} />
             <span className="text-sm" style={{ color: '#222831' }}>Zoom会議</span>
           </button>
-        </div>
-      )}
-
-      {/* Zoomミーティング作成モーダル */}
-      {showZoomModal && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 m-4 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4" style={{ color: '#222831' }}>
-              📹 Zoomミーティングを作成
-            </h3>
-            <form onSubmit={(e) => { e.preventDefault(); handleCreateZoom(); }} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#222831' }}>
-                  ミーティングタイトル <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="例: 財務相談ミーティング"
-                  value={zoomTitle}
-                  onChange={(e) => setZoomTitle(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
-                  style={{ 
-                    borderColor: '#393E46',
-                    backgroundColor: 'white',
-                    color: '#222831'
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = '#00ADB5';
-                    e.target.style.boxShadow = '0 0 0 2px rgba(0, 173, 181, 0.2)';
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = '#393E46';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                  autoFocus
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: '#222831' }}>
-                  相談概要（任意）
-                </label>
-                <textarea
-                  placeholder="相談内容や議題を入力してください"
-                  value={zoomDescription}
-                  onChange={(e) => setZoomDescription(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 resize-none"
-                  style={{ 
-                    borderColor: '#393E46',
-                    backgroundColor: 'white',
-                    color: '#222831'
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = '#00ADB5';
-                    e.target.style.boxShadow = '0 0 0 2px rgba(0, 173, 181, 0.2)';
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = '#393E46';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                  rows={3}
-                />
-              </div>
-
-              <div className="bg-gray-50 rounded-lg p-3" style={{ backgroundColor: '#EEEEEE' }}>
-                <p className="text-sm" style={{ color: '#393E46' }}>
-                  💡 <strong>ミーティング設定:</strong>
-                </p>
-                <ul className="text-sm mt-1 space-y-1" style={{ color: '#393E46' }}>
-                  <li>• 時間: 60分（デフォルト）</li>
-                  <li>• 参加者: グループメンバー全員</li>
-                  <li>• 録画: 利用可能</li>
-                </ul>
-              </div>
-
-              <div className="flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowZoomModal(false);
-                    setZoomTitle('');
-                    setZoomDescription('');
-                  }}
-                  className="px-4 py-2 text-sm rounded-md hover:opacity-80 transition-all"
-                  style={{ backgroundColor: '#393E46', color: 'white' }}
-                  disabled={isCreatingZoom}
-                >
-                  キャンセル
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2 text-sm text-white font-semibold rounded-md hover:opacity-80 transition-all disabled:opacity-50 flex items-center"
-                  style={{ backgroundColor: '#00ADB5' }}
-                  disabled={!zoomTitle.trim() || isCreatingZoom}
-                >
-                  {isCreatingZoom ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      作成中...
-                    </>
-                  ) : (
-                    <>
-                      <Video className="w-4 h-4 mr-2" />
-                      発行する
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
         </div>
       )}
 
