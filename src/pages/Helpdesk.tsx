@@ -11,13 +11,30 @@ export const Helpdesk: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState<'低' | '中' | '高'>('中');
+  const [assignee, setAssignee] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [dueDate, setDueDate] = useState('');
 
   const createTicket = () => {
     if (!title.trim()) return;
-    const t: Ticket = { id: uuid(), title, description, status: '未着手', priority, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    const t: Ticket = {
+      id: uuid(),
+      title,
+      description,
+      status: '未着手',
+      priority,
+      assignee: assignee || undefined,
+      startDate: startDate || undefined,
+      dueDate: dueDate || undefined,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
     setTickets((prev) => [t, ...prev]);
     setTitle('');
     setDescription('');
+    setAssignee('');
+    setStartDate('');
+    setDueDate('');
   };
 
   const setStatus = (id: string, status: TicketStatus) => setTickets((prev) => prev.map((t) => t.id === id ? { ...t, status, updatedAt: new Date().toISOString() } : t));
@@ -25,16 +42,21 @@ export const Helpdesk: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="card">
-        <div className="card-header">チケット作成</div>
-        <div className="card-body grid gap-2 md:grid-cols-4">
-          <input className="rounded border border-border px-3 py-2 md:col-span-1" placeholder="件名" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <input className="rounded border border-border px-3 py-2 md:col-span-2" placeholder="詳細" value={description} onChange={(e) => setDescription(e.target.value)} />
-          <select className="rounded border border-border px-3 py-2" value={priority} onChange={(e) => setPriority(e.target.value as any)}>
+        <div className="card-header flex items-center justify-between">
+          <span>チケット作成</span>
+          <button className="btn-primary px-3 py-1" onClick={createTicket}>作成</button>
+        </div>
+        <div className="card-body grid gap-2 md:grid-cols-6">
+          <input className="rounded border border-border px-3 py-2 md:col-span-2" placeholder="タイトル" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input className="rounded border border-border px-3 py-2 md:col-span-4" placeholder="内容" value={description} onChange={(e) => setDescription(e.target.value)} />
+          <input className="rounded border border-border px-3 py-2 md:col-span-2" placeholder="担当者" value={assignee} onChange={(e) => setAssignee(e.target.value)} />
+          <input type="date" className="rounded border border-border px-3 py-2 md:col-span-2" placeholder="開始日" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+          <input type="date" className="rounded border border-border px-3 py-2 md:col-span-1" placeholder="期限日" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+          <select className="rounded border border-border px-3 py-2 md:col-span-1" value={priority} onChange={(e) => setPriority(e.target.value as any)}>
             <option value="低">低</option>
             <option value="中">中</option>
             <option value="高">高</option>
           </select>
-          <button className="btn-primary md:col-span-4 justify-center" onClick={createTicket}>作成</button>
         </div>
       </div>
 
@@ -80,7 +102,7 @@ const KanbanCard: React.FC<{ ticket: Ticket }> = ({ ticket }) => {
   return (
     <div draggable onDragStart={handleDragStart} className="bg-white border border-border rounded p-2 shadow-sm cursor-grab active:cursor-grabbing">
       <div className="font-medium">{ticket.title}</div>
-      <div className="text-xs text-text/70">優先度: {ticket.priority} / SLA: {ticket.slaHours ?? '-'}h</div>
+      <div className="text-xs text-text/70">優先度: {ticket.priority} / 担当: {ticket.assignee || '-'} / 期間: {ticket.startDate || '-'} ~ {ticket.dueDate || '-'}</div>
       {ticket.description && <div className="text-sm mt-1 text-text/80">{ticket.description}</div>}
     </div>
   );

@@ -7,6 +7,10 @@ export type Ticket = {
   status: TicketStatus;
   priority: '低' | '中' | '高';
   slaHours?: number;
+  assignee?: string;
+  startDate?: string; // YYYY-MM-DD
+  dueDate?: string; // YYYY-MM-DD
+  department?: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -16,6 +20,8 @@ export type AdviceMessage = {
   role: 'user' | 'assistant';
   content: string;
   createdAt: string;
+  imageUrl?: string;
+  imageName?: string;
 };
 
 export type RiskAssessmentRecord = {
@@ -32,6 +38,39 @@ export type RoiRecord = {
   years: number;
   roi: number;
   createdAt: string;
+};
+
+export type ItAssetType = 'PC' | '携帯' | 'プリンター' | 'その他';
+export type ItAssetStatus = '新品' | '使用中' | '故障中';
+
+export type ItAsset = {
+  id: string;
+  type: ItAssetType;
+  status: ItAssetStatus;
+  user: string;
+  purchaseDate: string; // YYYY-MM-DD
+  price: number;
+};
+
+export type ServiceAsset = {
+  id: string;
+  serviceName: string;
+  department: string;
+  owner: string;
+  reason: string;
+};
+
+export type CompanyInfo = {
+  companyName: string;
+  companyNameKana: string;
+  address: string;
+  industry: string;
+  contactPerson: string;
+};
+
+export type Department = {
+  id: string;
+  name: string;
 };
 
 

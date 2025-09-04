@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { EllipsisVertical, LayoutDashboard, MessageSquare, LifeBuoy, ShieldCheck, Package, GraduationCap, Wrench, Boxes, Users, Activity, HelpCircle } from 'lucide-react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { EllipsisVertical, LayoutDashboard, MessageSquare, ListChecks, Monitor, Boxes, Building2, Users, HelpCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
   { to: '/', label: 'ダッシュボード', icon: LayoutDashboard },
-  // サービスページは不要のため削除
   { to: '/advice', label: 'IT相談', icon: MessageSquare },
-  { to: '/helpdesk', label: 'ヘルプデスク', icon: LifeBuoy },
-  { to: '/risk', label: 'リスク診断', icon: ShieldCheck },
-  { to: '/procurement', label: 'PC調達', icon: Package },
-  { to: '/training', label: '研修', icon: GraduationCap },
-  { to: '/tooling', label: '導入支援', icon: Wrench },
-  { to: '/assets', label: '資産管理', icon: Boxes },
-  { to: '/accounts', label: 'アカウント', icon: Users },
-  { to: '/ops', label: '保守・運用', icon: Activity },
+  { to: '/tasks', label: 'ITタスク', icon: ListChecks },
+  { to: '/it-assets', label: 'IT機器資産管理', icon: Monitor },
+  { to: '/service-assets', label: 'サービス資産管理', icon: Boxes },
+  { to: '/company', label: '会社情報', icon: Building2 },
+  { to: '/accounts', label: 'アカウント管理', icon: Users },
   { to: '/faq', label: 'FAQ', icon: HelpCircle },
 ];
+
+//
 
 export const AppLayout: React.FC = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
+  
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -35,13 +35,13 @@ export const AppLayout: React.FC = () => {
         </div>
         {isAuthenticated && (
           <div className="flex items-center gap-3">
-            <span className="text-sm text-text/70">{user?.name}</span>
-            <button className="px-3 py-1 rounded-md border border-border" onClick={logout}>ログアウト</button>
+            <span className="text-sm text-text/70">{user?.email}</span>
+            <button className="px-3 py-1 rounded-md border border-border" onClick={() => { logout(); navigate('/login'); }}>ログアウト</button>
           </div>
         )}
       </header>
 
-      {/* モバイル用プルダウンメニュー（ヘッダー直下） */}
+      {/* モバイル用メニュー（ヘッダー直下） */}
       {mobileOpen && (
         <div className="md:hidden border-b border-border bg-white">
           <nav className="p-2 space-y-1">
