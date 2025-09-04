@@ -5,8 +5,16 @@ import { Image as ImageIcon, Video } from 'lucide-react';
 
 export const Advice: React.FC = () => {
   const [messages, setMessages] = useState<AdviceMessage[]>(() => {
+    const now = Date.now();
     return [
-      { id: uuid(), role: 'assistant', content: 'どのようなIT課題でお困りですか？', createdAt: new Date().toISOString() },
+      { id: uuid(), role: 'user', content: '社内Wi‑Fiが頻繁に切断されます。原因調査をお願いできますか？', createdAt: new Date(now - 58 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'assistant', content: '発生端末・フロア・時間帯に傾向はありますか？他の方にも再現していますか？', createdAt: new Date(now - 57 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'user', content: '3Fで10〜12時が多いです。数名のPCで発生しています。', createdAt: new Date(now - 56 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'assistant', content: 'APのチャンネル干渉と台数上限を確認します。AP名や設置位置が分かれば共有ください。', createdAt: new Date(now - 55 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'user', content: 'APは AP-3F-East / AP-3F-West です。ログも取得しました。', createdAt: new Date(now - 54 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'assistant', content: 'ありがとうございます。まずは5GHz優先設定とチャンネル固定、送信出力の最適化を提案します。昼休みに適用でもよろしいですか？', createdAt: new Date(now - 52 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'user', content: '問題ありません。適用をお願いします。', createdAt: new Date(now - 51 * 60 * 1000).toISOString() },
+      { id: uuid(), role: 'assistant', content: '受付しました。担当が設定変更と検証を実施します。', createdAt: new Date(now - 50 * 60 * 1000).toISOString() },
     ];
   });
   const [input, setInput] = useState('');
@@ -49,7 +57,7 @@ export const Advice: React.FC = () => {
         <div className="card-body space-y-2 max-h-[60vh] overflow-y-auto">
           {messages.map((m) => (
             <div key={m.id} className={`max-w-[80%] ${m.role === 'user' ? 'ml-auto text-right' : ''}`}>
-              <div className={`inline-block px-3 py-2 rounded-lg ${m.role === 'user' ? 'bg-accent' : 'bg-sub2'}`}>
+              <div className={`inline-block px-3 py-2 rounded-lg ${m.role === 'user' ? 'bg-accent/60' : 'bg-sub2'}`}>
                 <div>{m.content}</div>
                 {m.imageUrl && (
                   <div className="mt-2">
