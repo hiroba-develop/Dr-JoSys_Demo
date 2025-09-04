@@ -27,7 +27,7 @@ export const AppLayout: React.FC = () => {
       {/* ヘッダー（幅いっぱい） */}
       <header className="h-14 bg-white border-b border-border flex items-center justify-between px-4 w-full">
         <div className="flex items-center gap-2">
-          <img src="public/Dr-JoSys_icon.png" alt="Dr.情シス" className="h-[48px] w-[162px] object-contain" />
+          <img src={`${import.meta.env.BASE_URL}Dr-JoSys_icon.png`} alt="Dr.情シス" className="h-[48px] w-[162px] object-contain" />
           {/* スマホ用 3点リーダー */}
           <button className="md:hidden px-2 py-1 rounded border border-border" onClick={() => setMobileOpen((v) => !v)} aria-label="Open Menu">
             <EllipsisVertical size={18} />
