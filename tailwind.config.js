@@ -4,20 +4,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Noto Sans JP"', "sans-serif"],
+        sans: ['"Noto Sans JP"', 'system-ui', 'sans-serif'],
       },
       colors: {
-        primary: "#67BACA",
-        accent: "#FE0000",
-        sub1: "#B3DBC0",
-        sub2: "#FDF6F6",
+        primary: "#154b85",
+        accent: "#007fb5",
+        sub1: "#03274d",
+        sub2: "#C4DFE6",
         background: "#FFFFFF",
         text: "#333333",
         border: "#E0E0E0",
-        success: "#4CAF50",
-        warning: "#FFA726",
-        info: "#2196F3",
-        error: "#D32F2F",
       },
     },
   },

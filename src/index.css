@@ -3,40 +3,29 @@
 @tailwind utilities;
 
 @layer base {
+  html, body, #root {
+    height: 100%;
+  }
   body {
-    @apply bg-background text-text;
-    font-family: "Noto Sans JP", sans-serif;
+    @apply bg-sub1 text-text font-sans antialiased;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors;
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed;
   }
-
-  .btn-secondary {
-    @apply bg-sub1 text-text px-4 py-2 rounded-lg hover:bg-sub1/90 transition-colors;
+  .btn-accent {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-black hover:brightness-95 transition disabled:opacity-60 disabled:cursor-not-allowed;
   }
-
   .card {
-    @apply bg-white border border-border rounded-lg shadow-sm p-6;
+    @apply bg-white rounded-lg shadow-sm border border-border;
   }
-
-  .input-field {
-    @apply border border-border rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary focus:border-primary;
+  .card-header {
+    @apply px-4 py-3 border-b border-border font-medium text-text;
   }
-
-  /* アニメーション定義 */
-  .animate-fadeIn {
-    animation: fadeIn 0.2s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  .card-body {
+    @apply p-4;
   }
 }
+
